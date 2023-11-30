@@ -117,4 +117,32 @@ cin >> ival;
 
 `tie`函数有两个重在的版本：一个版本不带参数，返回指向输出流的指针。如果本对象当前关联到一个输出流，则返回的就是这个流的指针，如果对象未关联到流，则返回空指针。`tie`函数的第二个版本接受一个指向`ostream`的指针，将自己关联到此ostream。即，`x.tie(&o)`将流`x`关联到输出流`o`。
 
-我们既可以将一个`istream`对象关联到另一个
+我们既可以将一个`istream`对象关联到另一个ostream，也可以将一个ostream关联到另一个ostream：
+
+```cpp
+cin.tie(&cout); //仅仅是用来展示：标准库将cin和cout关联在了一起
+//old_tie指向当前关联到cin的流（如果有的话）
+ostream *old_tie = cin.tie(nullptr); // cin.tie(nullptr)操纵将解除cin与其他流关联的操作，并返回之前cin关联的流；
+cin.tie(&cerr);   // 读取cin会刷新cerr而不是cout
+cin.tie(old_tie);   // 重建cin和cout间的正常关联
+```
+
+* 每个流同时最多关联到一个输出流，但多个流可以同时关联到同一个ostream。比如`cin`和`cerr`能同时关联`cout`
+
+## 8.2 文件输入输出
+
+头文件fstream定义了三个类型支持文件IO:ifstream从一个给定文件读取数据，ostream向一个给定文件写入数据，以及fstream可以读写给定文件。
+
+* 这些类型提供的操纵和`cin`和`cout`的操作一样。也可以用IO运算符（`<<`和`>>`）来读写文件，可以用getline从一个ifstream读取数据等
+
+* 除了继承自iostream类型的行为之外，`fstream`中定义的类型还增加了一些新的成员来管理与流相关 的文件。下表列出了我们可以对`fstream`、`ifstream`和`ostream`对象调用这些操纵，但不能对其他IO类型调用这些操作。
+
+* | fstream fstrm;      | 创建一个未绑定的文件流。`fstream`是头文件 `fstream`中定义的一个类型 |
+  | ------------------- | ------------------------------------------------------------ |
+  | `fstream fstrm(s);` | 创建一个`fstream`，并打开名为`s`的文件。s可以是`string`类型，或者是一个指向C风格字符串的指针。这些构造函数都是`explicit`（即不能隐式转换）的。默认的文件模式mode依赖与`fstream`的类型 |
+  |                     |                                                              |
+  |                     |                                                              |
+  |                     |                                                              |
+  |                     |                                                              |
+
+  

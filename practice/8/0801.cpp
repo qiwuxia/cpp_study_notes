@@ -46,7 +46,6 @@ int main()
     int i = 5;
     int i_eof, i_fail;
     cout << unitbuf;
-    while ()
-
+    cin.tie(nullptr);
     return 0;
 }
