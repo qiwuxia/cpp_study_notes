@@ -32,7 +32,7 @@ istream &rcin(istream &cs)
         cs >> s;
         auto now = cs.fail();
         auto now2 = cs.eof();
-        auto now3 = cs.bad()
+        auto now3 = cs.bad();
     }
     cout << "fail:"
          << "  " << ss << endl;
@@ -49,4 +49,4 @@ int main()
     cin.tie(nullptr);
     return 0;
 }
-123
+
