@@ -233,6 +233,52 @@ in.open(file + "2"); 		//打开另一个文件
   默认情况下，当我们打开一个`ofstream`时，文件的内容会被丢弃。阻止一个``ofstream`清空给定文件内容的方法时同时指定`app`模式:
 
   ```cpp
+  // 在这几条语句中，file1都被截断
+  ofstream out("file1"); // 隐含以输出模式打开文件并截断文件
+  ofstream out2("file1", ofstream::out); // 隐含地截断文件，显式以输出模式打开文件
+  ofstream out3("file1", ofstream::out | ofstream::trunc); //显式以输出模式打开文件，并截断文件
+  // 为了保留文件内容，我们必须显式指定app模式
+  ofstream app("file2", ofstream::app); // 隐含为输出模式
+  ofstream app2("file2", ofstream::out | ofstream::app);
+  ```
+  
+  * 保留被`ofstream`打开的文件中已有数据的唯一方法式显式指定`app`或`in`模式
+
+***
+
+* 每次调用`open`时都会确定文件模式
+
+  对于一个给定流，每当打开文件时，都可以改变其文件模式。
+
+  ```cpp
+  ofstream out; // 未指定文件打开模式
+  out.open("scratchpad"); // 模式隐含设置为输出和截断
+  out.close(); // 关闭out，以便我们将其用于其他文件
+  out.open("precious", ofstream::app); // 模式为输出和追加
+  out.close();
   ```
 
-  
+  第一个`open`调用为显式指定输出模式，文件隐式地以`out`模式打开。通常情况下，`out`模式意味着同时使用`trunc`模式。因此，当前目录下名为`scratchpad`的文件的内容将被清空。当打开名为`precious`的文件时，我们指定了`append`模式，因此文件中的原有数据得到保留，我们每次写操作将在文件末尾进行
+
+  * 在每次打开文件时，都要设置文件模式，可能是显式地设置，也可能是隐式地设置。当程序未指定模式时，就使用默认值。
+
+***
+
+## 8.7 string流
+
+`sstream`头文件定义了三个类型支持内存IO：`istringstream`从`string`读取数据，`ostringstream`向`string`写入数据，而`stringstream`从`string`读写数据。
+
+* 头文件`sstream`也是`iostream`的继承头文件
+
+  * 下表列出了`sstream`中新增的一些操作（`iostream`没有的）
+
+  | sstream strm;    | `strm`是一个未绑定的`stringstream`对象。`sstream`是头文件`sstream`中定义的一个类型 |
+  | ---------------- | ------------------------------------------------------------ |
+  | sstream strm(s); | `strm`是一个`sstream`对象，保存`string s`的一个拷贝。此构造函数是`explicit`的 |
+  | strm.str()       | 返回`strm`所保存的`string`的拷贝                             |
+  | strm.str(s)      | 将`string s`拷贝到`strm`中。返回`void`                       |
+
+
+
+### 8.3.1 使用`istringstream`
+
