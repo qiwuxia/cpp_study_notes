@@ -12,15 +12,15 @@ int main()
     }
     cout << endl;
 
-    vector<int> ivec(10, 1);
-    for(auto ive : ivec)
+    vector<int> ivec2(10, 1);
+    for(auto ive : ivec2)
     {
         cout << "第二个" << ive << ' ';
     }
     cout << endl;
 
-    vector<int> ivec{1, 2, 3, 4, 5};
-    for(auto ive : ivec)
+    vector<int> ivec3{1, 2, 3, 4, 5};
+    for(auto ive : ivec3)
     {
         cout << "第三个" << ive << ' ';
     }
