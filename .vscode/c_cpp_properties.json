@@ -3,7 +3,8 @@
         {
             "name": "Win32",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "C:\\Users\\24018\\AppData\\Local\\Programs\\Python\\Python311\\include"
             ],
             "defines": [
                 "_DEBUG",
@@ -11,7 +12,8 @@
                 "_UNICODE"
             ],
             "compilerPath": "D:/mingw64/bin/g++.exe",
-            "intelliSenseMode": "windows-gcc-x64"
+            "intelliSenseMode": "windows-gcc-x64",
+            "cppStandard": "c++11"
         }
     ],
     "version": 4
