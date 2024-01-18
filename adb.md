@@ -30,7 +30,7 @@
   * 每个安卓应用都有对应的包名，进入app的每个页面也对应着各个活动页，每个活动页都有特定的标签，打开应该页面需要这个标签
   * 获取当前活动页的标签：`adb shell "dumpsys window | grep CurrentFocus"`
   * 获取系统安装的APK的报名标签：`adb shell pm list packages -3`
-  * `adb logcat ActivityManager:I|findstr "cmp"`(使用adb打印命令，打印对应标签的信息，可找到对应活动页的标签名称)
+  * `adb logcat ActivityManager:I|findstr "cmp"`(使用`adb`打印命令，打印对应标签的信息，可找到对应活动页的标签名称)
   * `adb shell am start -n <apk包名/活动页>`（启动对应的应用或页面，输入后便可打开对应APK的活动页面）
   
 * 停止指令
@@ -92,6 +92,7 @@
         （2）是将screen.png保存到计算机上；保存的路径为你使用adb命令时的当前目录，当然你也可以在最后加入你想存放的路径名。
         
         2. 直接保存到电脑上的指令：adb exec-out screencap -p > screen.png
+            或：adb shell screencap -p > /sdcard/screen.png
         
         ```
   
@@ -219,5 +220,99 @@
 代码如下（实例）：
 
 ```python
+#此函数可实现adb的连接和进行一次点击事件
+import os
+
+#连接adb
+def adb_connect1(IP):
+    os.system(f"adb connect {IP}")
+
+# 点击事件
+def touch1(x, y):
+    os.system(f"adb shell input tap {x} {y}")
+
+if __name__ == "__main__":
+	os.system("adb connect 127.0.0.1:7555")
+	os.system("adb shell input tap 216 310")
+    #adb_connect1('127.0.0.1:7555')
+    #touch1(216,310) 
+
+```
+
+## 方法2：使用`os.popen()`函数实现
+
+```python
+import os
+
+#连接adb
+def adb_connect2(IP):
+    output_date = os.popen(f"adb connect {IP}")
+    print(output_date.read())
+
+# 点击事件
+def touch2(x, y):
+    output_date = os.popen(f"adb shell input tap {x} {y}")
+    print(output_date.read())
+
+if __name__ == "__main__":
+    adb_connect2('127.0.0.1:7555')
+    touch2(216,310)
+
+```
+
+## 方法三：使用`subprocess.Popen()`函数实现
+
+
+
+```python
+import os
+import subprocess
+
+#连接adb
+def adb_connect3():
+    p = subprocess.Popen("adb connect 127.0.0.1:7555", shell=True, close_fds=True, stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(str(p.communicate()))
+    
+def touch3(x, y):
+    p = subprocess.Popen(f"adb shell input tap {x} {y}", shell=True, close_fds=True, stdin=subprocess.PIPE,
+                         stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    print(str(p.communicate()))
+    
+if __name__ == "__main__":
+    adb_connect3()
+    touch3(216,310)
+
+```
+
+```python
+如何判断命令是否执行呢，我们就要使用到commands模块,此模块适用于python2.x。python3.x 要使用subprocess
+subprocess模块是python的内置模块，他共有三个函数分别是：
+(1) subprocess.getstatusoutput(cmd)返回一个元组（status，output）status代表的shell命令的返回状态，如果成功的话是0；output是shell的返回的结果
+(2)subprocess.getstatus（file）返回ls -ld file执行的结果.
+(3) subprocess.getoutput(cmd) 判断Shell命令的输出内容
+import subprocess
+
+
+def check_adb_status(device_id="xxxxx"):
+    out, err = subprocess.getstatusoutput("adb -s " + device_id + " get-state")
+
+    if err == 0:
+        if 'device' in out:
+            print("[INFO] ADB is on")
+            return True
+        elif 'offline' in out:
+            print("[WARNING] ADB device is dumb")
+            return False
+        else:
+            print("[WARNING] ADB is abnormal: " + out)
+    else:
+        print("[WARNING] ADB is bad: " + err)
+    return False
+
+
+if __name__ == '__main__':
+    check_adb_status(device_id="xxxx")
+
 ```
 
