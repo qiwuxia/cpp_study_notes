@@ -7,8 +7,12 @@ int8_t ctr[] = {0x1B, 0x5B, 0x30, 0x6D, 0x5B, 0x44, 0x2F, 0x6D, 0x61, 0x69, 0x6E
 
 int main()
 {
-    for (auto c : ctr)
-    {
-        cout << c;
-    }
+    vector<int> ivec(10, 1);
+    for (auto iv : ivec)
+        cout << " " << iv;
+    cout << endl;
+    ivec.erase(ivec.begin(), ivec.end() - 1);
+        for (auto iv : ivec)
+        cout << " " << iv;
+    cout << endl;
 }
