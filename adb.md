@@ -28,8 +28,9 @@
   
 * 启动指令
   * 每个安卓应用都有对应的包名，进入app的每个页面也对应着各个活动页，每个活动页都有特定的标签，打开应该页面需要这个标签
-  * 获取当前活动页的标签：`adb shell "dumpsys window | grep CurrentFocus"`
   * 获取系统安装的APK的报名标签：`adb shell pm list packages -3`
+  * 获取当前活动页的标签：`adb shell "dumpsys window | grep CurrentFocus"`
+  * 
   * `adb logcat ActivityManager:I|findstr "cmp"`(使用`adb`打印命令，打印对应标签的信息，可找到对应活动页的标签名称)
   * `adb shell am start -n <apk包名/活动页>`（启动对应的应用或页面，输入后便可打开对应APK的活动页面）
   
@@ -129,6 +130,8 @@
   
       * `adb shell input tap x y` : 点击对应坐标
   
+      * `adb shell input swipe 100 100 100 100 1000 ` ：// 在100 100 位置长安1000毫秒
+  
       * `adb shell input test 文本`：光标放入输入框里面
   
         * 例：`C:\Users\24637>adb shell input text 1234567890`
@@ -138,29 +141,120 @@
         * 例：`C:\Users\24637>adb shell input swipe 587 1601 520 323 1000`
   
       * `adb shell input keyevent <编号>`：模拟手机按键
-  
+      
         * ```cpp
           此处的编号是固定的键值
           不同的键值可对应安卓设备的一个功能按键
-          
+          KEYCODE_UNKNOWN=0;
+          KEYCODE_SOFT_LEFT=1;
+          KEYCODE_SOFT_RIGHT=2;
+          KEYCODE_HOME=3;     //home键
+          KEYCODE_BACK=4;     //back键
+          KEYCODE_CALL=5;
+          KEYCODE_ENDCALL=6;
+          KEYCODE_0=7;
+          KEYCODE_1=8;
+          KEYCODE_2=9;
+          KEYCODE_3=10;
+          KEYCODE_4=11;
+          KEYCODE_5=12;
+          KEYCODE_6=13;
+          KEYCODE_7=14;
+          KEYCODE_8=15;
+          KEYCODE_9=16;
+          KEYCODE_STAR=17;
+          KEYCODE_POUND=18;
+          KEYCODE_DPAD_UP=19;
+          KEYCODE_DPAD_DOWN=20;
+          KEYCODE_DPAD_LEFT=21;
+          KEYCODE_DPAD_RIGHT=22;
+          KEYCODE_DPAD_CENTER=23;
+          KEYCODE_VOLUME_UP=24;
+          KEYCODE_VOLUME_DOWN=25;
+          KEYCODE_POWER=26;
+          KEYCODE_CAMERA=27;
+          KEYCODE_CLEAR=28;
+          KEYCODE_A=29;
+          KEYCODE_B=30;
+          KEYCODE_C=31;
+          KEYCODE_D=32;
+          KEYCODE_E=33;
+          KEYCODE_F=34;
+          KEYCODE_G=35;
+          KEYCODE_H=36;
+          KEYCODE_I=37;
+          KEYCODE_J=38;
+          KEYCODE_K=39;
+          KEYCODE_L=40;
+          KEYCODE_M=41;
+          KEYCODE_N=42;
+          KEYCODE_O=43;
+          KEYCODE_P=44;
+          KEYCODE_Q=45;
+          KEYCODE_R=46;
+          KEYCODE_S=47;
+          KEYCODE_T=48;
+          KEYCODE_U=49;
+          KEYCODE_V=50;
+          KEYCODE_W=51;
+          KEYCODE_X=52;
+          KEYCODE_Y=53;
+          KEYCODE_Z=54;
+          KEYCODE_COMMA=55;
+          KEYCODE_PERIOD=56;
+          KEYCODE_ALT_LEFT=57;
+          KEYCODE_ALT_RIGHT=58;
+          KEYCODE_SHIFT_LEFT=59;
+          KEYCODE_SHIFT_RIGHT=60;
+          KEYCODE_TAB=61;
+          KEYCODE_SPACE=62;
+          KEYCODE_SYM=63;
+          KEYCODE_EXPLORER=64;
+          KEYCODE_ENVELOPE=65;
+          KEYCODE_ENTER=66;
+          KEYCODE_DEL=67;
+          KEYCODE_GRAVE=68;
+          KEYCODE_MINUS=69;
+          KEYCODE_EQUALS=70;
+          KEYCODE_LEFT_BRACKET=71;
+          KEYCODE_RIGHT_BRACKET=72;
+          KEYCODE_BACKSLASH=73;
+          KEYCODE_SEMICOLON=74;
+          KEYCODE_APOSTROPHE=75;
+          KEYCODE_SLASH=76;
+          KEYCODE_AT=77;
+          KEYCODE_NUM=78;
+          KEYCODE_HEADSETHOOK=79;
+          KEYCODE_FOCUS=80;//*Camera*focus
+          KEYCODE_PLUS=81;
+          KEYCODE_MENU=82;
+          KEYCODE_NOTIFICATION=83;
+          KEYCODE_SEARCH=84;
+          KEYCODE_MEDIA_PLAY_PAUSE=85;
+          KEYCODE_MEDIA_STOP=86;
+          KEYCODE_MEDIA_NEXT=87;
+          KEYCODE_MEDIA_PREVIOUS=88;
+          KEYCODE_MEDIA_REWIND=89;
+          KEYCODE_MEDIA_FAST_FORWARD=90;
+          KEYCODE_MUTE=91;
           ```
-  
+      
       * `adb shell input keyevent 4`:（点击手机的返回）
-  
+      
       * `adb shell input keyevent 3`:(回home,置于后台运行)
-  
+      
       * `adb shell input keyevent 24`:(volume +)
-  
+      
       * `adb shell input keyevent 25（volume -）`
-  
+      
       * 对应键值查找网址
-  
+      
         [查看对应的按键数值]: https://developer.android.google.cn/reference/kotlin/android/view/KeyEvent
-  
+      
       * `adb shell input press`:暂时不懂
-  
+      
       * `adb shell input roll`:暂时不懂
-  
+      
       * `adb shell input tmode`:暂时不懂
   
   * 性能指令：
